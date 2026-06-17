@@ -244,9 +244,9 @@ async function loadAllItems() {
     }
 }
 
-document.getElementById("categoryFilter").addEventListener("change", loadAllItems);
-document.getElementById("typeFilter").addEventListener("change", loadAllItems);
-document.getElementById("sortItems").addEventListener("change", loadAllItems);
+// document.getElementById("categoryFilter").addEventListener("change", loadAllItems);
+// document.getElementById("typeFilter").addEventListener("change", loadAllItems);
+// document.getElementById("sortItems").addEventListener("change", loadAllItems);
 
 // ---------- SEARCH ----------
 document.getElementById("searchBtn").addEventListener("click", async () => {

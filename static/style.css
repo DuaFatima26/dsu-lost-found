@@ -569,7 +569,7 @@ textarea {
 }
 
 /* ========================== FILTER BAR ========================== */
-.filter-bar {
+/* .filter-bar {
     padding: 20px 24px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -592,7 +592,7 @@ textarea {
 .filter-bar select option {
     background: #1a1a2e;
     color: var(--white);
-}
+} */
 
 /* ========================== ITEMS GRID ========================== */
 .items-grid {
