@@ -5,40 +5,65 @@ from firebase_admin import credentials, firestore
 from datetime import datetime
 import os
 import json
+import traceback
 
 app = Flask(__name__)
 CORS(app)
 
-# ---------- FIREBASE ADMIN INIT (Environment Variable Support) ----------
+# ---------- FIREBASE ADMIN INIT (with JSON sanitization) ----------
 firebase_creds = os.environ.get('FIREBASE_CREDENTIALS')
 
-if firebase_creds:
-    # Production: Render se credentials load karo
-    cred_dict = json.loads(firebase_creds)
-    cred = credentials.Certificate(cred_dict)
-else:
-    # Local Development: serviceAccountKey.json se load karo
-    cred = credentials.Certificate("serviceAccountKey.json")
+try:
+    if firebase_creds:
+        # Remove any leading/trailing whitespace and UTF-8 BOM
+        firebase_creds = firebase_creds.strip().lstrip('\ufeff')
+        try:
+            cred_dict = json.loads(firebase_creds)
+            cred = credentials.Certificate(cred_dict)
+        except json.JSONDecodeError as e:
+            print(f"❌ JSON decode error: {e}")
+            print(f"First 100 chars of FIREBASE_CREDENTIALS: {firebase_creds[:100]}")
+            # Fallback: try to load from local file (local development)
+            cred = credentials.Certificate("serviceAccountKey.json")
+    else:
+        # Local development: serviceAccountKey.json se load karo
+        cred = credentials.Certificate("serviceAccountKey.json")
+    
+    firebase_admin.initialize_app(cred)
+    db = firestore.client()
+    items_ref = db.collection('items')
+    print("✅ Firebase Admin initialized successfully")
+except Exception as e:
+    print(f"❌ Firebase init error: {e}")
+    db = None
+    items_ref = None
 
-firebase_admin.initialize_app(cred)
-db = firestore.client()
-items_ref = db.collection('items')
+# ---------- HELPER: return JSON error ----------
+def json_error(msg, status=500):
+    return jsonify({"error": msg}), status
 
 # ---------- 1. REPORT ITEM ----------
 @app.route('/api/report', methods=['POST'])
 def report_item():
     try:
+        if items_ref is None:
+            return json_error("Firestore not initialized")
         data = request.json
+        if not data:
+            return json_error("No data provided", 400)
         data['createdAt'] = datetime.now().isoformat()
         doc_ref = items_ref.add(data)
         return jsonify({"success": True, "id": doc_ref[1].id}), 201
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        traceback.print_exc()
+        return json_error(str(e)), 500
 
 # ---------- 2. GET ITEMS ----------
 @app.route('/api/items', methods=['GET'])
 def get_items():
     try:
+        if items_ref is None:
+            return json_error("Firestore not initialized")
         category = request.args.get('category', 'all')
         type_filter = request.args.get('type', 'all')
         sort_order = request.args.get('sort', 'latest')
@@ -60,12 +85,15 @@ def get_items():
             items.append(item)
         return jsonify(items), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        traceback.print_exc()
+        return json_error(str(e)), 500
 
 # ---------- 3. SEARCH ----------
 @app.route('/api/search', methods=['GET'])
 def search_items():
     try:
+        if items_ref is None:
+            return json_error("Firestore not initialized")
         keyword = request.args.get('q', '').strip().lower()
         if not keyword:
             return jsonify([]), 200
@@ -83,12 +111,15 @@ def search_items():
                 results.append(item)
         return jsonify(results), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        traceback.print_exc()
+        return json_error(str(e)), 500
 
 # ---------- 4. MATCHING ALGORITHM ----------
 @app.route('/api/match', methods=['GET'])
 def match_items():
     try:
+        if items_ref is None:
+            return json_error("Firestore not initialized")
         lost_docs = items_ref.where('type', '==', 'lost').stream()
         found_docs = items_ref.where('type', '==', 'found').stream()
         
@@ -128,7 +159,13 @@ def match_items():
         matches.sort(key=lambda x: x['match_score'], reverse=True)
         return jsonify(matches), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        traceback.print_exc()
+        return json_error(str(e)), 500
+
+# ---------- HEALTH CHECK ----------
+@app.route('/api/health', methods=['GET'])
+def health():
+    return jsonify({"status": "ok", "firebase": "connected" if items_ref else "failed"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
