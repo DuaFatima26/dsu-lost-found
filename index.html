@@ -3,228 +3,331 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DSU Smart Lost & Found System</title>
-   <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title>DSU Smart Lost &amp; Found System</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
-    <!-- Background animation -->
+
+    <!-- ANIMATED BACKGROUND -->
     <div class="bg-animation">
         <span></span><span></span><span></span><span></span><span></span>
     </div>
 
-    <!-- LOGIN -->
+    <!--  LOGIN PAGE  -->
     <section id="loginPage" class="page active-page">
-        <div class="glass-card auth-card">
+        <div class="auth-card glass-card">
+
             <div class="logo-area">
                 <div class="logo-placeholder">DSU</div>
-                <h1>DSU Smart Lost & Found System</h1>
-                <p>Helping students reconnect with their belongings.</p>
+                <h1>DSU Smart Lost &amp; Found</h1>
+                <p>Reconnecting students with their belongings.</p>
             </div>
+
             <form id="loginForm">
                 <div class="input-group">
-                    <label>DSU ID</label>
-                    <input type="text" id="loginDSU" placeholder="Enter DSU ID" required />
+                    <label for="loginDSU"><i class="fa-solid fa-id-card" style="margin-right:6px;color:var(--gold-500);"></i>DSU ID</label>
+                    <input type="text" id="loginDSU" placeholder="Enter your roll number" required />
                 </div>
                 <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter Password" required />
+                    <label for="loginPassword"><i class="fa-solid fa-lock" style="margin-right:6px;color:var(--gold-500);"></i>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required />
                 </div>
-                <button type="submit" class="primary-btn">Login</button>
-                <button type="button" id="goRegisterBtn" class="secondary-btn">Go to Register</button>
+                <button type="submit" class="primary-btn">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </button>
+                <button type="button" id="goRegisterBtn" class="secondary-btn">
+                    Create New Account
+                </button>
             </form>
+
+           <p style="text-align:center; margin-top:20px; font-size:12px; color:var(--gray-300);">
+             DHA Suffa University &bull; Karachi
+             </p>
         </div>
     </section>
 
-    <!-- REGISTER -->
+    <!--  REGISTER PAGE  -->
     <section id="registerPage" class="page">
-        <div class="glass-card register-card">
+        <div class="register-card glass-card">
+
+            <div class="logo-placeholder" style="width:58px;height:58px;font-size:18px;margin:0 auto 14px;">DSU</div>
             <h2>Create Account</h2>
+            <p class="reg-subtitle">Join the DSU Lost &amp; Found community</p>
+
+            <div class="gold-divider"></div>
+
             <form id="registerForm">
-                <div class="form-grid">
-                    <div class="input-group">
+                <p class="form-section-title"><i class="fa-solid fa-user"></i> Personal Details</p>
+                <div class="form-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Full Name</label>
-                        <input type="text" id="regFullName" placeholder="Enter Full Name" required />
+                        <input type="text" id="regFullName" placeholder="Muhammad Ali" required />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>DSU ID</label>
-                        <input type="text" id="regDsuId" placeholder="Enter Roll Number" required />
+                        <input type="text" id="regDsuId" placeholder="21f-0001" required />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Department</label>
-                        <input type="text" id="regDepartment" placeholder="Department" required />
+                        <input type="text" id="regDepartment" placeholder="Computer Science" required />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Semester</label>
-                        <input type="text" id="regSemester" placeholder="Semester" required />
+                        <input type="text" id="regSemester" placeholder="6th" required />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Phone Number</label>
                         <input type="tel" id="regPhone" placeholder="03XXXXXXXXX" required />
                     </div>
-                    <div class="input-group">
+                    <div class="input-group" style="margin-bottom:0;">
                         <label>Password</label>
                         <input type="password" id="registerPassword" placeholder="Minimum 6 characters" required />
                     </div>
                 </div>
-                <button type="submit" class="primary-btn">Register</button>
-                <button type="button" id="backToLoginBtn" class="secondary-btn">Back to Login</button>
+
+                <button type="submit" class="primary-btn">
+                    <i class="fa-solid fa-user-plus"></i> Register Account
+                </button>
+                <button type="button" id="backToLoginBtn" class="secondary-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Login
+                </button>
             </form>
         </div>
     </section>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD PAGE -->
     <section id="dashboardPage" class="page">
+
+        <!-- Navbar -->
         <nav class="navbar">
-            <div class="nav-logo">DSU Lost & Found</div>
+            <div class="nav-logo">
+                <div class="nav-logo-badge">DSU</div>
+                <div class="nav-logo-text">
+                    Lost &amp; <span>Found</span>
+                </div>
+            </div>
             <div class="nav-actions">
-                <button id="logoutBtn" class="danger-btn">Logout</button>
+                <button id="logoutBtn" class="danger-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
             </div>
         </nav>
+
         <div class="dashboard-container">
+
+            <!-- Welcome Banner -->
             <div class="welcome-section glass-card">
+                <div class="welcome-gold-line"></div>
                 <h2>Welcome Back 👋</h2>
-                <p>Manage lost and found reports quickly and efficiently.</p>
+                <p>Manage lost and found reports quickly and efficiently through DSU's smart portal.</p>
             </div>
+
+            <!-- Profile Summary -->
             <div class="profile-summary glass-card">
-                <h3>User Profile Summary</h3>
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <div class="profile-header-text">
+                        <h3>Student Profile</h3>
+                        <p>Your registered information</p>
+                    </div>
+                </div>
                 <div class="profile-info" id="profileInfo">
-                    <p><strong>Name:</strong> <span id="profileName">—</span></p>
-                    <p><strong>DSU ID:</strong> <span id="profileDsuId">—</span></p>
-                    <p><strong>Department:</strong> <span id="profileDept">—</span></p>
-                    <p><strong>Semester:</strong> <span id="profileSem">—</span></p>
-                    <p><strong>Phone:</strong> <span id="profilePhone">—</span></p>
-                    <p><strong>Email:</strong> <span id="profileEmail">—</span></p>
+                    <p><strong>Name</strong> <span id="profileName">—</span></p>
+                    <p><strong>DSU ID</strong> <span id="profileDsuId">—</span></p>
+                    <p><strong>Department</strong> <span id="profileDept">—</span></p>
+                    <p><strong>Semester</strong> <span id="profileSem">—</span></p>
+                    <p><strong>Phone</strong> <span id="profilePhone">—</span></p>
+                    <p><strong>Email</strong> <span id="profileEmail">—</span></p>
                 </div>
             </div>
+
+            <!-- Action Cards -->
             <div class="dashboard-cards">
+
                 <div class="action-card glass-card" id="lostItemCard">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
                     <h3>Report Lost Item</h3>
+                    <p class="card-desc">Submit a report for something you've lost on campus</p>
                 </div>
+
                 <div class="action-card glass-card" id="foundItemCard">
-                    <i class="fa-solid fa-box-open"></i>
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
                     <h3>Report Found Item</h3>
+                    <p class="card-desc">Help a fellow student by reporting what you found</p>
                 </div>
+
                 <div class="action-card glass-card" id="viewItemsCard">
-                    <i class="fa-solid fa-table-list"></i>
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-table-list"></i>
+                    </div>
                     <h3>View All Items</h3>
+                    <p class="card-desc">Browse all lost and found submissions on campus</p>
                 </div>
+
                 <div class="action-card glass-card" id="searchItemsCard">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <div class="card-icon-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
                     <h3>Search Items</h3>
+                    <p class="card-desc">Look up specific items by name, color, or category</p>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- REPORT LOST -->
+    <!--  REPORT LOST ITEM PAGE -->
     <section id="lostItemPage" class="page">
-        <div class="page-header">
-            <button class="back-btn dashboardBack">← Dashboard</button>
-            <h2>Report Lost Item</h2>
-        </div>
-        <div class="glass-card form-container">
-            <form id="lostItemForm">
-                <div class="form-grid">
-                    <input type="text" id="lostFullName" placeholder="Full Name" required />
-                    <input type="text" id="lostDsuId" placeholder="DSU ID" required />
-                    <input type="text" id="lostDepartment" placeholder="Department" required />
-                    <input type="text" id="lostSemester" placeholder="Semester" required />
-                    <input type="tel" id="lostPhone" placeholder="Phone Number" required />
-                    <input type="text" id="lostItemName" placeholder="Item Name" required />
-                    <input type="text" id="lostCategory" placeholder="Item Category" required />
-                    <input type="text" id="lostColor" placeholder="Item Color" />
-                    <input type="text" id="lostLocation" placeholder="Lost Location" required />
-                    <input type="date" id="lostDate" required />
-                </div>
-                <textarea id="lostDescription" placeholder="Detailed Description"></textarea>
-                <div class="form-buttons">
-                    <button type="submit" class="primary-btn">Submit Report</button>
-                    <button type="reset" class="secondary-btn">Reset Form</button>
-                </div>
-            </form>
-        </div>
-    </section>
+        <div class="page-wrapper">
 
-    <!-- REPORT FOUND -->
-    <section id="foundItemPage" class="page">
-        <div class="page-header">
-            <button class="back-btn dashboardBack">← Dashboard</button>
-            <h2>Report Found Item</h2>
-        </div>
-        <div class="glass-card form-container">
-            <form id="foundItemForm">
-                <div class="form-grid">
-                    <input type="text" id="foundFullName" placeholder="Full Name" required />
-                    <input type="text" id="foundDsuId" placeholder="DSU ID" required />
-                    <input type="text" id="foundDepartment" placeholder="Department" required />
-                    <input type="text" id="foundSemester" placeholder="Semester" required />
-                    <input type="tel" id="foundPhone" placeholder="Phone Number" required />
-                    <input type="text" id="foundItemName" placeholder="Item Name" required />
-                    <input type="text" id="foundCategory" placeholder="Item Category" required />
-                    <input type="text" id="foundColor" placeholder="Item Color" />
-                    <input type="text" id="foundLocation" placeholder="Found Location" required />
-                    <input type="date" id="foundDate" required />
-                </div>
-                <textarea id="foundDescription" placeholder="Detailed Description"></textarea>
-                <div class="form-buttons">
-                    <button type="submit" class="primary-btn">Submit Found Report</button>
-                    <button type="reset" class="secondary-btn">Reset Form</button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- VIEW ALL ITEMS -->
-    <section id="viewItemsPage" class="page">
-        <div class="page-header">
-            <button class="back-btn dashboardBack">← Dashboard</button>
-            <h2>View All Items</h2>
-             <button class="primary-btn" onclick="findMatches()" style="width:auto; padding:12px 25px;">
-               <i class="fas fa-link"></i> Find Matches
-             </button>
-        </div>
-        <!-- <div class="filter-bar glass-card">
-            <select id="categoryFilter">
-                <option value="all">All Categories</option>
-                <option value="Wallet">Wallet</option>
-                <option value="Mobile">Mobile</option>
-                <option value="Keys">Keys</option>
-                <option value="ID Card">ID Card</option>
-                <option value="Book">Book</option>
-                <option value="Laptop">Laptop</option>
-                <option value="Other">Other</option>
-            </select>
-            <select id="typeFilter">
-                <option value="all">Lost & Found</option>
-                <option value="lost">Lost</option>
-                <option value="found">Found</option>
-            </select>
-            <select id="sortItems">
-                <option value="latest">Latest</option>
-                <option value="oldest">Oldest</option>
-            </select>
-        </div> -->
-        <div id="itemsContainer" class="items-grid"></div>
-    </section>
-
-    <!-- SEARCH -->
-    <section id="searchPage" class="page">
-        <div class="page-header">
-            <button class="back-btn dashboardBack">← Dashboard</button>
-            <h2>Search Items</h2>
-        </div>
-        <div class="search-section glass-card">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search item name, category, color..." />
-                <button id="searchBtn" class="primary-btn">Search</button>
+            <div class="page-header">
+                <button class="back-btn dashboardBack">
+                    <i class="fa-solid fa-chevron-left"></i> Dashboard
+                </button>
+                <h2>Report Lost Item</h2>
             </div>
+
+            <div class="form-container glass-card">
+                <p class="form-section-title"><i class="fa-solid fa-user"></i> Reporter Information</p>
+                <form id="lostItemForm">
+                    <div class="form-grid">
+                        <input type="text" id="lostFullName"   placeholder="Full Name" required />
+                        <input type="text" id="lostDsuId"      placeholder="DSU ID" required />
+                        <input type="text" id="lostDepartment" placeholder="Department" required />
+                        <input type="text" id="lostSemester"   placeholder="Semester" required />
+                        <input type="tel"  id="lostPhone"      placeholder="Phone Number (03XXXXXXXXX)" required />
+                    </div>
+
+                    <div class="gold-divider" style="margin-top:22px;"></div>
+                    <p class="form-section-title"><i class="fa-solid fa-box"></i> Item Details</p>
+
+                    <div class="form-grid">
+                        <input type="text" id="lostItemName"  placeholder="Item Name (e.g. Black Laptop)" required />
+                        <input type="text" id="lostCategory"  placeholder="Category (e.g. Electronics)" required />
+                        <input type="text" id="lostColor"     placeholder="Item Color" />
+                        <input type="text" id="lostLocation"  placeholder="Where did you lose it?" required />
+                        <input type="date" id="lostDate" required />
+                    </div>
+
+                    <textarea id="lostDescription" placeholder="Describe the item in detail — brand, model, markings, etc." style="margin-top:14px;"></textarea>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="primary-btn">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Report
+                        </button>
+                        <button type="reset" class="secondary-btn">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        <div id="searchResults" class="items-grid"></div>
     </section>
 
-    <script type="module" src="./static/script.js"></script>
+    <!-- REPORT FOUND ITEM PAGE-->
+    <section id="foundItemPage" class="page">
+        <div class="page-wrapper">
+
+            <div class="page-header">
+                <button class="back-btn dashboardBack">
+                    <i class="fa-solid fa-chevron-left"></i> Dashboard
+                </button>
+                <h2>Report Found Item</h2>
+            </div>
+
+            <div class="form-container glass-card">
+                <p class="form-section-title"><i class="fa-solid fa-user"></i> Reporter Information</p>
+                <form id="foundItemForm">
+                    <div class="form-grid">
+                        <input type="text" id="foundFullName"   placeholder="Full Name" required />
+                        <input type="text" id="foundDsuId"      placeholder="DSU ID" required />
+                        <input type="text" id="foundDepartment" placeholder="Department" required />
+                        <input type="text" id="foundSemester"   placeholder="Semester" required />
+                        <input type="tel"  id="foundPhone"      placeholder="Phone Number (03XXXXXXXXX)" required />
+                    </div>
+
+                    <div class="gold-divider" style="margin-top:22px;"></div>
+                    <p class="form-section-title"><i class="fa-solid fa-box-open"></i> Item Details</p>
+
+                    <div class="form-grid">
+                        <input type="text" id="foundItemName"  placeholder="Item Name (e.g. Blue Water Bottle)" required />
+                        <input type="text" id="foundCategory"  placeholder="Category (e.g. Sports)" required />
+                        <input type="text" id="foundColor"     placeholder="Item Color" />
+                        <input type="text" id="foundLocation"  placeholder="Where did you find it?" required />
+                        <input type="date" id="foundDate" required />
+                    </div>
+
+                    <textarea id="foundDescription" placeholder="Describe the item — any distinguishing features, condition, etc." style="margin-top:14px;"></textarea>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="primary-btn">
+                            <i class="fa-solid fa-paper-plane"></i> Submit Found Report
+                        </button>
+                        <button type="reset" class="secondary-btn">
+                            <i class="fa-solid fa-rotate-left"></i> Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- VIEW ALL ITEMS PAGE -->
+    <section id="viewItemsPage" class="page">
+        <div class="page-wrapper">
+
+            <div class="page-header">
+                <button class="back-btn dashboardBack">
+                    <i class="fa-solid fa-chevron-left"></i> Dashboard
+                </button>
+                <h2>All Submissions</h2>
+                <button class="primary-btn" onclick="findMatches()" style="width:auto; padding:11px 26px; margin-top:0;">
+                    <i class="fas fa-link"></i> Find Matches
+                </button>
+            </div>
+
+            <div id="itemsContainer" class="items-grid"></div>
+
+        </div>
+    </section>
+
+    <!--  SEARCH PAGE -->
+    <section id="searchPage" class="page">
+        <div class="page-wrapper">
+
+            <div class="page-header">
+                <button class="back-btn dashboardBack">
+                    <i class="fa-solid fa-chevron-left"></i> Dashboard
+                </button>
+                <h2>Search Items</h2>
+            </div>
+
+            <div class="search-section glass-card">
+                <h4><i class="fa-solid fa-magnifying-glass" style="margin-right:6px;"></i>Search the database</h4>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by item name, category, color, location…" />
+                    <button id="searchBtn" class="primary-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+
+            <div id="searchResults" class="items-grid"></div>
+
+        </div>
+    </section>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script type="module" src="/static/script.js"></script>
 </body>
 </html>
