@@ -34,7 +34,7 @@ const db = getFirestore(app);
 // ---------- API BASE URL (Flask server) ----------
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? "http://localhost:5000/api"
-    : "https://YOUR_APP_NAME.onrender.com/api";  // ⚠️ Baad mein actual name change karna
+    : "https://lost-and-found-lac-beta.vercel.app";  // ⚠️ Baad mein actual name change karna
 
 // ---------- PAGE REFERENCES ----------
 const pages = {
