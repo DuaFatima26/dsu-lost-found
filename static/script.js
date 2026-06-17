@@ -1,5 +1,5 @@
 // ========================================
-// FIREBASE AUTH (Same as before)
+// FIREBASE AUTH + DYNAMIC API URL
 // ========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -31,10 +31,10 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ---------- API BASE URL (Flask server) ----------
+// ---------- API BASE URL (Dynamic) ----------
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? "http://localhost:5000/api"
-    : "https://lost-and-found-lac-beta.vercel.app";  // ⚠️ Baad mein actual name change karna
+    : "https://lost-and-found-lac-beta.vercel.app/api";
 
 // ---------- PAGE REFERENCES ----------
 const pages = {
@@ -48,18 +48,26 @@ const pages = {
 };
 
 function hideAllPages() {
-    Object.values(pages).forEach(page => page.style.display = "none");
+    Object.values(pages).forEach(page => {
+        if (page) page.style.display = "none";
+    });
 }
 
 function showPage(name) {
     hideAllPages();
     const page = pages[name];
     if (!page) return;
-    page.style.display = (name === "login" || name === "register") ? "flex" : "block";
+    if (name === "login" || name === "register") {
+        page.style.display = "flex";
+    } else {
+        page.style.display = "block";
+    }
+    console.log(`📄 Switched to page: ${name}`);
 }
 
-// ---------- AUTH STATE ----------
+// ---------- AUTH STATE LISTENER (With Debug Log) ----------
 onAuthStateChanged(auth, async (user) => {
+    console.log("🔍 Auth state changed:", user ? "Logged In" : "Logged Out");
     if (user) {
         showPage("dashboard");
         await loadUserProfile(user.uid);
@@ -68,6 +76,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+// ---------- LOAD USER PROFILE ----------
 async function loadUserProfile(uid) {
     try {
         const docSnap = await getDoc(doc(db, "students", uid));
@@ -105,7 +114,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
         await setDoc(doc(db, "students", userCred.user.uid), {
             fullName, dsuId, department, semester, phone, email, createdAt: new Date()
         });
-        alert("Registration Successful!");
+        alert("✅ Registration Successful!");
         document.getElementById("registerForm").reset();
         showPage("login");
     } catch (error) {
@@ -113,16 +122,25 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     }
 });
 
-// ---------- LOGIN ----------
+// ---------- LOGIN (FIXED: Manually show dashboard) ----------
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const dsuId = document.getElementById("loginDSU").value.trim();
     const password = document.getElementById("loginPassword").value;
+    const email = dsuId.toLowerCase() + "@dsu.edu";
+
     try {
-        await signInWithEmailAndPassword(auth, dsuId.toLowerCase() + "@dsu.edu", password);
-        alert("Login Successful");
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("✅ Login Successful");
+
+        // 🔥 FIX: Manually load profile and show dashboard (in case listener is delayed)
+        const user = auth.currentUser;
+        if (user) {
+            showPage("dashboard");
+            await loadUserProfile(user.uid);
+        }
     } catch (error) {
-        alert("Wrong DSU ID or Password");
+        alert("❌ Wrong DSU ID or Password");
     }
 });
 
@@ -159,7 +177,7 @@ async function callAPI(endpoint, options = {}) {
     return response.json();
 }
 
-// ---------- REPORT LOST (via Flask) ----------
+// ---------- REPORT LOST ----------
 document.getElementById("lostItemForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = {
@@ -186,7 +204,7 @@ document.getElementById("lostItemForm").addEventListener("submit", async (e) => 
     }
 });
 
-// ---------- REPORT FOUND (via Flask) ----------
+// ---------- REPORT FOUND ----------
 document.getElementById("foundItemForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const data = {
@@ -213,7 +231,7 @@ document.getElementById("foundItemForm").addEventListener("submit", async (e) =>
     }
 });
 
-// ---------- LOAD ALL ITEMS (via Flask) ----------
+// ---------- LOAD ALL ITEMS ----------
 async function loadAllItems() {
     try {
         const category = document.getElementById("categoryFilter").value;
@@ -230,7 +248,7 @@ document.getElementById("categoryFilter").addEventListener("change", loadAllItem
 document.getElementById("typeFilter").addEventListener("change", loadAllItems);
 document.getElementById("sortItems").addEventListener("change", loadAllItems);
 
-// ---------- SEARCH (via Flask) ----------
+// ---------- SEARCH ----------
 document.getElementById("searchBtn").addEventListener("click", async () => {
     const query = document.getElementById("searchInput").value.trim();
     if (!query) return alert("Enter search term");
@@ -242,7 +260,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
     }
 });
 
-// ---------- FIND MATCHES (Python Algorithm via Flask) ----------
+// ---------- FIND MATCHES ----------
 window.findMatches = async function() {
     try {
         const matches = await callAPI('/match');
@@ -289,3 +307,4 @@ function renderItems(items, containerId) {
 }
 
 console.log("✅ DSU System with Flask Backend Loaded");
+console.log("🔗 API_BASE:", API_BASE);
